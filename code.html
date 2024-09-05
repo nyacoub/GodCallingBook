@@ -1,0 +1,179 @@
+﻿<html dir="rtl">
+<head>
+    <title>الله يدعو</title>
+    <meta charset=utf-8" />
+	<link rel="icon" href="./assets/favicon.ico" sizes="32x32">
+	<link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+	<link rel="manifest" href="./assets/site.webmanifest">	
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <style>
+	:root {
+		color-scheme: light dark;
+		--primary-color: light-dark(#333, #fafafa);
+		--primary-background: light-dark(#e4e4e4, #121212);
+        font-size: 2.5em;
+	}
+	.main {
+		display: flex;
+		justify-content: space-between;
+	}
+	.prev-day-btn {
+		position: fixed;
+		top: 50%;
+		right: 0;
+		transform: translate(-50%);
+	}
+	.next-day-btn {
+		position: fixed;
+		top: 50%;
+		left: 1em;
+		transform: translate(-50%, 0);
+	}
+	.content {
+		margin-right: 1em;
+		margin-left: 1em;
+	}
+	.dark-mode-btn {
+		position: fixed;
+		bottom: 0;
+		left: 1em;
+	}
+	.btn {
+		cursor: pointer;
+		user-select: none;
+		opacity: 0.5;
+	}
+	.btn:hover {
+		opacity: 1;
+	}
+	body {
+		color: var(--primary-color);
+		background-color: var(--primary-background);
+		transition: color 0.4s, background-color 0.4s;
+        font-family: Amiri, Times, serif;
+		padding: 10px;
+	}
+    h1 {
+		font-size: 1.3em;
+    }
+    p {
+		text-indent: 30px;
+    }
+    </style>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y9EE502WZD"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-Y9EE502WZD');
+		
+		let currentDay = 0;
+		let currentMonth = 0;
+
+		function showDay(month, day) {
+			let d = String(day).padStart(2, '0');
+			let m = String(month).padStart(2, '0');
+
+			fetch('./arabic/text/' + m + d + '.html')
+			.then(x => x.text())
+			.then(data => {
+				document.querySelector('.content').innerHTML = data;
+				currentDay = day;
+				currentMonth = month;
+			}).catch( e => console.log(e));
+		}
+
+		function showToday() {
+			const d = new Date();
+			showDay(d.getMonth()+1, d.getDate());
+		}
+
+		function showNextDay() {
+            let daysInMonth = [ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+            let daysInCurrentMonth = daysInMonth[currentMonth-1];
+			let day = currentDay + 1;
+			let month = currentMonth;
+
+            if (day > daysInCurrentMonth)
+            {
+                month++;
+			
+				if (month > 12)
+					month = 1;
+
+                day = 1;
+            }
+			
+			showDay(month, day);
+		}
+
+		function showPrevDay() {
+            let daysInMonth = [ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+            let daysInCurrentMonth = daysInMonth[currentMonth-1];
+			let day = currentDay - 1;
+			let month = currentMonth;
+
+            if (day <= 0)
+            {
+                month--;
+
+				if (month <= 0)
+					month = 12;
+
+                day = daysInMonth[month-1];
+            }
+			
+			showDay(month, day);
+		}
+
+		window.onload = () => {
+		
+			showToday();
+
+			let root = document.querySelector(':root');
+			let darkModeButton = document.querySelector('.dark-mode-btn');
+			let prevDayButton = document.querySelector('.prev-day-btn');
+			let nextDayButton = document.querySelector('.next-day-btn');
+
+			nextDayButton.addEventListener('click', () => showNextDay());
+			prevDayButton.addEventListener('click', () => showPrevDay());
+
+			darkModeButton.addEventListener('click', () => {
+				//event.preventDefault();
+				if (root.style.colorScheme == 'dark') {
+					root.style.colorScheme = 'light';
+					localStorage.setItem('theme', 'light');
+				}
+				else {
+					root.style.colorScheme = 'dark';
+					localStorage.setItem('theme', 'dark');
+				}
+			});
+		};
+	</script>
+</head>
+<body>
+	<script>
+		let theme = localStorage.getItem('theme');
+
+		if (theme) {
+			let root = document.querySelector(':root');
+			let button = document.querySelector('img');
+
+			root.style.colorScheme = theme;
+			if (theme == 'dark') {
+				button.style.filter='invert(100%)';
+			}
+		}
+	</script>
+	<div class="btn prev-day-btn">🠆</div>
+	<div class="content">
+	</div>
+	<div class="btn next-day-btn">🠄</div>
+	<div class="btn dark-mode-btn">☀</div>
+</body>
+</html>
