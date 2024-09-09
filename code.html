@@ -20,16 +20,22 @@
 		display: flex;
 		justify-content: space-between;
 	}
-	.prev-day-btn {
+	.today-btn {
 		position: fixed;
-		top: 50%;
-		right: 0;
+		left: 1em;
+		bottom: 3em;
 		transform: translate(-50%);
 	}
 	.next-day-btn {
 		position: fixed;
-		top: 50%;
 		left: 1em;
+		bottom: 4em;
+		transform: translate(-50%);
+	}
+	.prev-day-btn {
+		position: fixed;
+		left: 1em;
+		bottom: 2em;
 		transform: translate(-50%);
 	}
 	.content {
@@ -137,9 +143,11 @@
 
 			let root = document.querySelector(':root');
 			let darkModeButton = document.querySelector('.dark-mode-btn');
-			let prevDayButton = document.querySelector('.prev-day-btn');
+			let todayButton = document.querySelector('.today-btn');
 			let nextDayButton = document.querySelector('.next-day-btn');
+			let prevDayButton = document.querySelector('.prev-day-btn');
 
+			todayButton.addEventListener('click', () => showToday());
 			nextDayButton.addEventListener('click', () => showNextDay());
 			prevDayButton.addEventListener('click', () => showPrevDay());
 
@@ -175,6 +183,7 @@
 	<div class="content">
 	</div>
 	<div class="btn next-day-btn">&#8678;</div>
+	<div class="btn today-btn">&#8962;</div>
 	<div class="btn dark-mode-btn">☀</div>
 </body>
 </html>
