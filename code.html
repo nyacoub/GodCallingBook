@@ -39,8 +39,8 @@
 		transform: translate(-50%);
 	}
 	.content {
-		margin-right: 1em;
-		margin-left: 1em;
+		margin-right: 1.5em;
+		margin-left: 2em;
 	}
 	.dark-mode-btn {
 		position: fixed;
@@ -51,6 +51,7 @@
 	.btn {
 		cursor: pointer;
 		user-select: none;
+		font-size: 1.5em;
 		opacity: 0.5;
 	}
 	.btn:hover {
@@ -67,10 +68,10 @@
 		font-size: 1.3em;
     }
     p {
-		text-indent: 30px;
+		text-indent: 0px;
     }
     </style>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y9EE502WZD"></script>
+	<script async src="./assets/tag.js?id=G-Y9EE502WZD"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
 		function gtag(){dataLayer.push(arguments);}
@@ -171,12 +172,7 @@
 
 		if (theme) {
 			let root = document.querySelector(':root');
-			let button = document.querySelector('img');
-
 			root.style.colorScheme = theme;
-			if (theme == 'dark') {
-				button.style.filter='invert(100%)';
-			}
 		}
 	</script>
 	<div class="btn prev-day-btn">&#8680;</div>
@@ -184,6 +180,6 @@
 	</div>
 	<div class="btn next-day-btn">&#8678;</div>
 	<div class="btn today-btn">&#8962;</div>
-	<div class="btn dark-mode-btn">☀</div>
+	<div class="btn dark-mode-btn">&#9728;</div>
 </body>
 </html>
