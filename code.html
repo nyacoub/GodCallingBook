@@ -7,7 +7,8 @@
 	<link rel="manifest" href="./assets/site.webmanifest">	
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <style>
 	:root {
@@ -16,53 +17,42 @@
 		--primary-background: light-dark(#e4e4e4, #121212);
         font-size: 2.5em;
 	}
-	.main {
-		display: flex;
-		justify-content: space-between;
-	}
-	.today-btn {
-		position: fixed;
-		left: 1em;
-		bottom: 3em;
-		transform: translate(-50%);
-	}
-	.next-day-btn {
-		position: fixed;
-		left: 1em;
-		bottom: 4em;
-		transform: translate(-50%);
-	}
-	.prev-day-btn {
-		position: fixed;
-		left: 1em;
-		bottom: 2em;
-		transform: translate(-50%);
-	}
-	.content {
-		margin-right: 1.5em;
-		margin-left: 2em;
-	}
-	.dark-mode-btn {
-		position: fixed;
-		bottom: 0;
-		left: 1em;
-		transform: translate(-50%);
-	}
-	.btn {
-		cursor: pointer;
-		user-select: none;
-		font-size: 1.5em;
-		opacity: 0.5;
-	}
-	.btn:hover {
-		opacity: 1;
-	}
 	body {
 		color: var(--primary-color);
 		background-color: var(--primary-background);
 		transition: color 0.4s, background-color 0.4s;
         font-family: Amiri, Times, serif;
-		padding: 10px;
+	}
+	.menu-btn {
+		position: fixed;
+		top: 0em;
+		left: 0.1em;
+	}
+	.hidden {
+		visibility: hidden;
+	}
+	.toolbar {
+		position: fixed;
+		top: 2em;
+		left: 0.1em;
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+		height: 100vh;
+	}
+	.btn {
+		cursor: pointer;
+		user-select: none;
+		font-size: 1.5em;
+		text-align: center;		
+		opacity: 0.5;
+	}
+	.btn:hover {
+		opacity: 1;
+	}
+	.content {
+		margin-right: 1em;
+		margin-left: 1.3em;
 	}
     h1 {
 		font-size: 1.3em;
@@ -81,6 +71,30 @@
 		
 		let currentDay = 0;
 		let currentMonth = 0;
+		
+		function goToEnglishPage(month, day) {
+			let months = [
+				[6845, 6863, 6870, 6876, 6882, 6888, 6899, 6937, 6944, 6956, 6965, 6973, 6980, 6990, 6995, 7049, 7053, 7064, 7069, 7076, 7083, 7089, 7094, 10107, 7139, 7198, 7205, 7214, 7221, 7229, 7234],
+				[7242, 7253, 7258, 7263, 7288, 7296, 7303, 7308, 7325, 7330, 7341, 7346, 7358, 7363, 7368, 7431, 7440, 7445, 7451, 7457, 7463, 7487, 7481, 7495, 7499, 7505, 7509, 7513, null],
+				[7600, 7607, 7615, 7621, 7627, 7631, 7638, 7645, 7651, 7656, 7669, 7676, 7681, 147, 7698, 7704, 7712, 7718, 7723, 7730, 7736, 7741, 7746, 7757, 7764, 7770, 7776, 7782, 7789, 7795, 7804],
+				[8100, 8106, 8112, 8119, 8126, 8131, 8140, 8147, 8154, 8161, 8166, 8171, 8177, 8185, 8191, 8196, 8207, 8218, 8225, 8231, 1641, 8271, 8278, 8285, 8296, 8301, 8307, 8314, 8320, 8330],
+				[8385, 8403, 8420, 8426, 8432, 8440, 8446, 8455, 8462, 8471, 8481, 8489, 8496, 8504, 8513, 8703, 8710, 8715, 8719, 8723, 8728, 8735, 8739, 8743, 8748, 8753, 8758, 8764, 8769, 8773, 8779],
+				[8856, 8862, 2697, 2703, 8896, 8906, 8917, 8934, 8941, 8950, 8959, 8983, 9021, 9032, 9044, 9056, 9066, 9078, 9101, 9162, 9128, 9174, 9180, 9186, 9192, 9199, 9205, 9220, 3371, 9234],
+				[10469, 10467, 10465, 10463, 9456, 9461, 9463, 9467, 9473, 10458, 9477, 9479, 9481, 9483, 9485, 9503, 9505, 9507, 9509, 9511, 9513, 9515, 9518, 9520, 9544, 9546, 9548, 9550, 9554, 9556, 9558], 
+				[9589, 9591, 9593, 9595, 9597, 9599, 9601, 4313, 4322, 4327, 4320, 4873, 4880, 4887, 4897, 4902, 4906, 4911, 4916, 4923, 4928, 5017, 5022, 5027, 5032, 5092, 5098, 5107, 5112, 5117, 5124],
+				[5146, 5152, 5158, 5163, 9649, 10867, 9625, 9627, 5193, 9631, 5269, 5277, 5283, 5289, 5296, 5320, 5330, null, 5342, 5348, 5357, 5365, 5370, 5377, 5382, 5389, 5401, 5407, 5417, 5424],
+				[5756, 5761, 5766, 5777, 5797, 5811, 5817, 5823, 5871, 5877, 5884, 5891, 5898, 5905, 9816, 5947, 5957, 5964, 5972, 5980, 9830, 5993, 6001, 6025, 6036, 6051, 6055, 6060, 6066, 6073, 6078],
+				[6153, 6161, 6167, 6173, 6180, 6237, 6245, 6250, 6257, 6262, 6266, 6271, 6276, 6282, 6289, 6295, 6302, 6310, 6318, 6324, 6333, 6339, 6346, 10583, 6403, 6420, 6431, 6436, 6441, 6447],
+				[6484, 6492, 6500, 6504, 6534, 6539, 6548, 6552, 6558, 6577, 6564, 6569, 6582, 6586, 9981, 6648, 6685, 6679, 6692, 6701, 6716, 10774, 6734, 6741, 6747, 10016, 6789, 6795, 10022, 6815, 6824]
+			];
+			//oct[5756, 9732, 9792, 9794, 9796, 9798, 9800, 9802, 9804, 9806, 9808, 9810, 9812, 9814, 9816, 9820, 9822, 9824, 9826, 9828, 9830, 9832, 9834, 9836, 6036, 9840, 9842, 9844, 9846, 9848, 9850],
+			//nov[10555, 10553, 10551, 6173, 6180, 6237, 6245, 6250, 9911, 9914, 9916, 9918, 9920, 9922, 9924, 10567, 10569, 10571, 10573, 10575, 10577, 10579, 10581, 10583, 10585, 9929, 9931, 9934, 9936, 9938],
+			let page = months[month-1][day-1];
+			if (page)
+				window.open("https://www.twolisteners.org/?p=" + page, "GodCalling");
+			else
+				window.open("https://www.twolisteners.org/?page_id=360", "GodCalling");
+		}
 
 		function showDay(month, day) {
 			let d = String(day).padStart(2, '0');
@@ -143,11 +157,16 @@
 			showToday();
 
 			let root = document.querySelector(':root');
+			let menuButton = document.querySelector('.menu-btn');
+			let toolbar = document.querySelector('.toolbar');
 			let darkModeButton = document.querySelector('.dark-mode-btn');
+			let englishButton = document.querySelector('.english-btn');
 			let todayButton = document.querySelector('.today-btn');
 			let nextDayButton = document.querySelector('.next-day-btn');
 			let prevDayButton = document.querySelector('.prev-day-btn');
 
+			menuButton.addEventListener('click', () => toolbar.classList.toggle('hidden'));
+			englishButton.addEventListener('click', () => goToEnglishPage(currentMonth, currentDay));
 			todayButton.addEventListener('click', () => showToday());
 			nextDayButton.addEventListener('click', () => showNextDay());
 			prevDayButton.addEventListener('click', () => showPrevDay());
@@ -175,11 +194,15 @@
 			root.style.colorScheme = theme;
 		}
 	</script>
-	<div class="btn prev-day-btn">&#8680;</div>
+	<span class="btn material-symbols-outlined menu-btn">menu</span>	
+	<div class="toolbar hidden">
+		<span class="btn material-symbols-outlined english-btn">language</span>
+		<span class="btn material-symbols-outlined prev-day-btn">line_end_arrow_notch</span>
+		<span class="btn material-symbols-outlined next-day-btn">line_start_arrow_notch</span>
+		<span class="btn material-symbols-outlined today-btn">today</span>
+		<span class="btn material-symbols-outlined dark-mode-btn">dark_mode</span>
+	</div>
 	<div class="content">
 	</div>
-	<div class="btn next-day-btn">&#8678;</div>
-	<div class="btn today-btn">&#8962;</div>
-	<div class="btn dark-mode-btn">&#9728;</div>
 </body>
 </html>
