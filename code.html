@@ -259,6 +259,11 @@
 			prevDayButton.addEventListener('click', () => showPrevDay());
 			calendarButton.addEventListener('click', () => calendar.classList.toggle('hidden'));
 			homeButton.addEventListener('click', () => showToday());
+			document.addEventListener('click', (e) => {
+			console.log(e);
+				if (!calendar.classList.contains('hidden') && !calendar.contains(e.target) && !e.target.classList.contains('btn'))
+					calendar.classList.add('hidden');
+			});
 
 			darkModeButton.addEventListener('click', () => {
 				//event.preventDefault();
