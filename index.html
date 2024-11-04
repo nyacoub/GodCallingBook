@@ -38,7 +38,7 @@
 	}
 	body {
 		height: 100vh;
-		background: #f0f0f0;
+		background-color: var(--primary-background);
 		transition: color 0.4s, background-color 0.4s;
         font-family: Amiri, Times, serif;
 		margin: 0px;
@@ -47,6 +47,7 @@
 		height: 100vh;
 		color: var(--primary-color);
 		background-color: var(--primary-background);
+		transition: color 0.4s, background-color 0.4s;
 		margin-right: auto;
 		margin-left: auto;
 	}
@@ -207,7 +208,7 @@
 			let m = String(month).padStart(2, '0');
 			let url = part==1 ? './arabic/text/' : './arabic/text2/';
 
-			fetch(url + m + d + '.html')
+			fetch(url + m + d + '.xml')
 			.then(x => x.text())
 			.then(data => {
 				let xmlDoc = parser.parseFromString(data, 'text/xml');
