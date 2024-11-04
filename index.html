@@ -14,6 +14,14 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <style>
+	@media (max-width: 600px) {
+		.calendar-months {
+			grid-template-columns: auto auto auto auto !important;
+		}
+		.calendar-days {
+			grid-template-columns: auto auto auto auto !important;
+		}
+	}
 	@media (min-width: 768px) {
 		.container {
 			width: 750px;
@@ -46,10 +54,10 @@
 		height: 50px;
 		display: flex;
 		justify-content: space-between;
-		padding: 15px 15px 0px 15px;
+		padding: 10px 15px 0px 15px;
 	}
 	.content {
-		height: calc(100vh - 100px);
+		height: calc(100vh - 115px);
 		overflow-y: auto;
 		padding-right: 15px;
 		padding-left: 15px;
