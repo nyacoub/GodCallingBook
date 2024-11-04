@@ -4,6 +4,7 @@
     <meta charset=utf-8" />
 	<meta name="description" content="كتاب الله يدعو - God Calling Book">
 	<meta name="keywords" content="pdf كتاب الله يدعو , الله يدعو , God calling book">
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;user-scalable=no"/>
 	<link rel="icon" href="./assets/favicon.ico" sizes="32x32">
 	<link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
 	<link rel="manifest" href="./assets/site.webmanifest">	
@@ -13,42 +14,52 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <style>
+	@media (min-width: 768px) {
+		.container {
+			width: 750px;
+		}
+	}
 	:root {
 		color-scheme: light dark;
 		--primary-color: light-dark(#333, #fafafa);
 		--primary-background: light-dark(#e4e4e4, #121212);
-        font-size: 2.5em;
+        font-size: 24px;
+	}
+	html {
+		height: 100vh;
 	}
 	body {
-		color: var(--primary-color);
-		background-color: var(--primary-background);
+		height: 100vh;
+		background: #f0f0f0;
 		transition: color 0.4s, background-color 0.4s;
         font-family: Amiri, Times, serif;
+		margin: 0px;
 	}
-	.english-btn {
-		position: fixed;
-		top: 0em;
-		left: 0.1em;
+	.container {
+		height: 100vh;
+		color: var(--primary-color);
+		background-color: var(--primary-background);
+		margin-right: auto;
+		margin-left: auto;
 	}
-	.dark-mode-btn {
-		position: fixed;
-		top: 0em;
-		left: 1.5em;
+	.header {
+		height: 50px;
+		display: flex;
+		justify-content: space-between;
+		padding: 15px 15px 0px 15px;
 	}
-	.calendar-btn {
-		position: fixed;
-		top: 0em;
-		left: 3em;
+	.content {
+		height: calc(100vh - 100px);
+		overflow-y: auto;
+		padding-right: 15px;
+		padding-left: 15px;
 	}
-	.prev-day-btn {
-		position: fixed;
-		bottom: 0em;
-		right: 0.1em;
-	}
-	.next-day-btn {
-		position: fixed;
-		bottom: 0em;
-		left: 0.1em;
+	.footer {
+		height: 50px;
+		display: flex;
+		justify-content: space-between;
+		padding-right: 15px;
+		padding-left: 15px;
 	}
 	.hidden {
 		visibility: hidden;
@@ -63,22 +74,29 @@
 	.btn:hover {
 		opacity: 1;
 	}
-	.content {
-		margin-right: 1.3em;
-		margin-left: 1.3em;
+	.gc-day {
+		font-size: 1em;
+		line-height: 1;
 	}
-    h1 {
-		font-size: 1.3em;
+    .gc-title {
+		font-weight: bold;
+		flex: 100%;
+		text-align: center;
     }
+	.gc-book {
+		font-size: 1em;
+		line-height: 1;
+	}
     p {
 		text-indent: 0px;
     }
 	.calendar {
 		position: fixed;
+		left: 50%;
+		transform: translate(-50%, 0);		
 		display: grid;
 		gap: 0.2em;
-		top: 2em;
-		left: 0.1em;
+		bottom: 2em;
 		padding: 0.2em;
 		color: var(--primary-color);
 		background-color: var(--primary-background);
@@ -131,11 +149,26 @@
 			let root = document.querySelector(':root');
 			root.style.colorScheme = theme;
 		}
+		
+		let part = 1;
+		let parser = new DOMParser();
 
 		const d = new Date();
 		let currentDay = d.getDate();
 		let currentMonth = d.getMonth()+1;
 		const daysInMonth = [ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+		function switchBook() {
+			if (part==1) {
+				part = 2;
+				document.querySelector('.gc-book').innerHTML = "الله في المساء";
+			}
+			else {
+				part = 1;
+				document.querySelector('.gc-book').innerHTML = "الله يدعو";
+			}
+			showDay(currentMonth, currentDay);
+		}
 		
 		function goToEnglishPage(month, day) {
 			let months = [
@@ -164,11 +197,15 @@
 		function showDay(month, day) {
 			let d = String(day).padStart(2, '0');
 			let m = String(month).padStart(2, '0');
+			let url = part==1 ? './arabic/text/' : './arabic/text2/';
 
-			fetch('./arabic/text/' + m + d + '.html')
+			fetch(url + m + d + '.html')
 			.then(x => x.text())
 			.then(data => {
-				document.querySelector('.content').innerHTML = data;
+				let xmlDoc = parser.parseFromString(data, 'text/xml');
+				document.querySelector('.gc-day').innerHTML = xmlDoc.getElementsByTagName('gc-day')[0].innerHTML;
+				document.querySelector('.gc-title').innerHTML = xmlDoc.getElementsByTagName('gc-title')[0].innerHTML;
+				document.querySelector('.content').innerHTML = xmlDoc.getElementsByTagName('gc-message')[0].innerHTML;
 				currentDay = day;
 				currentMonth = month;
 				updateCalendar();
@@ -253,14 +290,18 @@
 			let nextDayButton = document.querySelector('.next-day-btn');
 			let prevDayButton = document.querySelector('.prev-day-btn');
 			let homeButton = document.querySelector('.home-btn');
+			let dayButton = document.querySelector('.gc-day');
+			let bookButton = document.querySelector('.gc-book');
 
 			englishButton.addEventListener('click', () => goToEnglishPage(currentMonth, currentDay));
 			nextDayButton.addEventListener('click', () => showNextDay());
 			prevDayButton.addEventListener('click', () => showPrevDay());
 			calendarButton.addEventListener('click', () => calendar.classList.toggle('hidden'));
 			homeButton.addEventListener('click', () => showToday());
+			dayButton.addEventListener('click', () => calendar.classList.toggle('hidden'));
+			bookButton.addEventListener('click', () => switchBook());
+
 			document.addEventListener('click', (e) => {
-			console.log(e);
 				if (!calendar.classList.contains('hidden') && !calendar.contains(e.target) && !e.target.classList.contains('btn'))
 					calendar.classList.add('hidden');
 			});
@@ -311,12 +352,21 @@
 	</script>
 </head>
 <body>
-	<span class="btn material-symbols-outlined english-btn">language</span>
-	<span class="btn material-symbols-outlined dark-mode-btn">dark_mode</span>
-	<span class="btn material-symbols-outlined calendar-btn">calendar_month</span>
-	<span class="btn material-symbols-outlined prev-day-btn">line_end_arrow_notch</span>
-	<span class="btn material-symbols-outlined next-day-btn">line_start_arrow_notch</span>
-	<div class="content">
+	<div class="container">
+		<div class="header">
+			<span class="btn gc-day"></span>
+			<span class="gc-title"></span>
+			<span class="btn gc-book">الله يدعو</span>
+		</div>
+		<div class="content">
+		</div>
+		<div class="footer">
+			<span class="btn material-symbols-outlined prev-day-btn">line_end_arrow_notch</span>
+			<span class="btn material-symbols-outlined english-btn">language</span>
+			<span class="btn material-symbols-outlined calendar-btn">calendar_month</span>
+			<span class="btn material-symbols-outlined dark-mode-btn">dark_mode</span>
+			<span class="btn material-symbols-outlined next-day-btn">line_start_arrow_notch</span>
+		</div>
 	</div>
 	<div class="calendar hidden">
 		<div class="calendar-months">
