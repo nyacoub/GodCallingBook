@@ -34,17 +34,20 @@
         font-size: 24px;
 	}
 	html {
-		height: 100vh;
+		height: 100%;
 	}
 	body {
-		height: 100vh;
+		height: 100dvh;
 		background-color: var(--primary-background);
 		transition: color 0.4s, background-color 0.4s;
         font-family: Amiri, Times, serif;
 		margin: 0px;
+		overscroll-behavior: none;
 	}
 	.container {
-		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		height: 100dvh;
 		color: var(--primary-color);
 		background-color: var(--primary-background);
 		transition: color 0.4s, background-color 0.4s;
@@ -58,7 +61,7 @@
 		padding: 10px 15px 0px 15px;
 	}
 	.content {
-		height: calc(100vh - 115px);
+		flex: 1;
 		overflow-y: auto;
 		padding-right: 15px;
 		padding-left: 15px;
