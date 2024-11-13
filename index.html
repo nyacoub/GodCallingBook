@@ -114,7 +114,7 @@
 		flex: 100%;
 		text-align: center;
     }
-	.gc-book {
+	.gc-english {
 		font-size: 1em;
 		line-height: 1;
 	}
@@ -192,11 +192,11 @@
 		function switchBook() {
 			if (part==1) {
 				part = 2;
-				document.querySelector('.gc-book').innerHTML = "الله في المساء";
+				document.querySelector('.gc-english').innerHTML = "الله في المساء";
 			}
 			else {
 				part = 1;
-				document.querySelector('.gc-book').innerHTML = "الله يدعو";
+				document.querySelector('.gc-english').innerHTML = "الله يدعو";
 			}
 			showDay(currentMonth, currentDay);
 		}
@@ -340,21 +340,21 @@
 			let root = document.querySelector(':root');
 			let calendar = document.querySelector('.calendar');
 			let darkModeButton = document.querySelector('.dark-mode-btn');
-			let englishButton = document.querySelector('.english-btn');
+			let bookButton = document.querySelector('.book-btn');
 			let calendarButton = document.querySelector('.calendar-btn');
 			let nextDayButton = document.querySelector('.next-day-btn');
 			let prevDayButton = document.querySelector('.prev-day-btn');
 			let homeButton = document.querySelector('.home-btn');
 			let dayButton = document.querySelector('.gc-day');
-			let bookButton = document.querySelector('.gc-book');
+			let englishButton = document.querySelector('.gc-english');
 
-			englishButton.addEventListener('click', () => goToEnglishPage(currentMonth, currentDay));
+			bookButton.addEventListener('click', () => switchBook());
 			nextDayButton.addEventListener('click', () => showNextDay());
 			prevDayButton.addEventListener('click', () => showPrevDay());
 			calendarButton.addEventListener('click', () => calendar.classList.toggle('hidden'));
 			homeButton.addEventListener('click', () => showToday());
 			dayButton.addEventListener('click', () => calendar.classList.toggle('hidden'));
-			bookButton.addEventListener('click', () => switchBook());
+			englishButton.addEventListener('click', () => goToEnglishPage(currentMonth, currentDay));
 
 			document.addEventListener('click', (e) => {
 				if (!calendar.classList.contains('hidden') && !calendar.contains(e.target) && !e.target.classList.contains('btn'))
@@ -411,13 +411,13 @@
 		<div class="header">
 			<span class="btn gc-day"></span>
 			<span class="gc-title"></span>
-			<span class="btn gc-book">الله يدعو</span>
+			<span class="btn gc-english">الله يدعو</span>
 		</div>
 		<div class="content">
 		</div>
 		<div class="footer">
 			<span class="btn material-symbols-outlined prev-day-btn">line_end_arrow_notch</span>
-			<span class="btn material-symbols-outlined english-btn">language</span>
+			<span class="btn material-symbols-outlined book-btn">library_books</span></span>
 			<span class="btn material-symbols-outlined calendar-btn">calendar_month</span>
 			<span class="btn material-symbols-outlined dark-mode-btn">dark_mode</span>
 			<span class="btn material-symbols-outlined next-day-btn">line_start_arrow_notch</span>
